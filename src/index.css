@@ -1,3 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
+@font-face {
+  font-family: "Circular Std";
+  src: url("/circular-std-medium-500.ttf");
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply w-screen h-screen bg-bg-dark font-primary text-text-light;
+}
+
+#root {
+  @apply w-full h-full flex justify-center items-center;
+}
+
+#logo svg {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
