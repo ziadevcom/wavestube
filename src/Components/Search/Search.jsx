@@ -1,3 +1,12 @@
+import { useSearchParams } from "react-router-dom";
+
 export default function Search() {
-  return <h2> Search </h2>;
+  const [params] = useSearchParams();
+  const query = params.get("q");
+  return (
+    <h2>
+      {" "}
+      You searched for <strong> {query} </strong>
+    </h2>
+  );
 }

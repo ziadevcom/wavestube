@@ -15,7 +15,7 @@ export default {
         accent: {
           light: "#ff3f3f",
           // DEFAULT: "#FF0000",
-          DEFAULT: "green",
+          DEFAULT: "red",
         },
         bg: {
           gray: "#ffffff",

@@ -1,7 +1,7 @@
 // import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import Socials from "./Socials";
-import Search from "./Search/Search";
+import Search from "./SearchForm/SearchForm";
 
 function Header() {
   return (
