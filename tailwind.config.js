@@ -34,6 +34,9 @@ export default {
         primary: ["Circular Std", "sans-serif"],
         secondary: ["DM Sans", "sans-serif"],
       },
+      screens: {
+        xsm: "300px",
+      },
     },
   },
   plugins: [],

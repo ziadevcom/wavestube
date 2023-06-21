@@ -6,7 +6,7 @@ const wavesSVG = (
     viewBox="0 0 48 48"
     id="b"
     xmlns="http://www.w3.org/2000/svg"
-    className="fill-none stroke-accent w-14 h-14"
+    className="fill-none stroke-accent h-12 w-12 md:w-14 md:h-14"
   >
     <g id="c">
       <line
@@ -102,7 +102,7 @@ export default function Logo() {
     <Link to="/">
       <div id="logo" className="flex items-center gap-2">
         {wavesSVG}
-        <p className="font-primary text-2xl">
+        <p className="font-primary text-xl md:text-2xl">
           Waves<span className="text-primary">Tube</span>
         </p>
       </div>

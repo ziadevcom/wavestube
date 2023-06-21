@@ -1,46 +1,50 @@
-import { useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
+import { useState } from "react";
 
 export default function Search() {
-  const [params] = useSearchParams();
-  const searchInput = useRef();
+  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
   function handleSubmit(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
+    if (!searchInput) return;
+    navigate(`/search?q=${searchInput}`);
+  }
 
-    // Perform any necessary form processing here
-
-    // Redirect to the desired page using history.push
-    navigate(`/search?q=${searchInput.current.value}`);
+  function handleSearchInputChange(e) {
+    setSearchInput(e.target.value);
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      action="/search"
-      className="flex items-center rounded overflow-hidden flex-grow max-w-[500px] h-12"
-    >
-      <label htmlFor="searchSongs" className="sr-only">
-        Search Songs
-      </label>
-      <input
-        ref={searchInput}
-        id="searchSongs"
-        type="text"
-        name="q"
-        className="flex-grow h-full text-text-dark px-4 placeholder-text-red-500"
-        placeholder="Search for a song..."
-        defaultValue={params.get("q")}
-      ></input>
-
-      <button
-        type="submit"
-        className="bg-primary-light text-text-light h-full bg-accent hover:bg-accent-light"
+    <div className="w-full md:max-w-[500px] flex-grow relative text-sm md:text-base">
+      <form
+        onSubmit={handleSubmit}
+        action="/search"
+        className="w-full flex items-center rounded-t-sm overflow-hidden h-10 md:h-12 "
       >
-        <img src="/search.png" className="h-full w-full p-2" alt="" />
-        <span className="sr-only">Search</span>
-      </button>
-    </form>
+        <label htmlFor="searchSongs" className="sr-only">
+          Search Songs
+        </label>
+        <input
+          id="searchSongs"
+          type="text"
+          name="q"
+          className="xsm:flex-grow h-full text-text-dark px-4 placeholder-text-red-500"
+          placeholder="Search for a song..."
+          value={searchInput}
+          onChange={handleSearchInputChange}
+        ></input>
+
+        <button
+          type="submit"
+          className="bg-primary-light text-text-light h-full bg-accent hover:bg-accent-light min-w-max"
+        >
+          <img src="/search.png" className="h-full w-full p-2" alt="" />
+          <span className="sr-only">Search</span>
+        </button>
+      </form>
+      <SearchSuggestions searchQuery={searchInput} />
+    </div>
   );
 }

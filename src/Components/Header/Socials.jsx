@@ -1,6 +1,6 @@
 function Socials() {
   return (
-    <div id="socials" className="flex items-center gap-4">
+    <div id="socials" className="hidden md:flex items-center gap-4">
       <a
         href="https://github.com/ziadevcom"
         target="_blank"
