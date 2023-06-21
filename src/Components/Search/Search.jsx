@@ -20,7 +20,7 @@ export default function Search() {
 
   useEffect(() => {
     fetchResult(query);
-  }, []);
+  }, [query]);
 
   return (
     <div id="searchResults">
