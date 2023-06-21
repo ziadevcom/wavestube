@@ -4,21 +4,15 @@ import { getInstanceURL, getOfficialInstanceURL } from "./helpers.js";
 // Make request to official instance
 // If successfull => return search results
 // If fails => call recusively and use some other instance
-// Also recursively call if request takes more than "REQUEST_TIMEOUT" or request fails at all
-export async function searchYoutube(query, officialInstance = true) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
-
+export async function searchYoutube(query) {
   try {
-    const instanceURL = officialInstance
-      ? await getOfficialInstanceURL()
-      : await getInstanceURL();
+    const instanceURL = await getInstanceURL();
 
     const requestURL = encodeURI(
       `${instanceURL}/search?q=${query}&filter=videos`
     );
 
-    const response = await fetch(requestURL, { signal: controller.signal });
+    const response = await fetch(requestURL);
     const results = await response.json();
 
     return {
@@ -27,8 +21,7 @@ export async function searchYoutube(query, officialInstance = true) {
     };
   } catch (error) {
     console.log(error);
-    clearInterval(timeoutId);
-    return await searchYoutube(query, (officialInstance = false));
+    return await searchYoutube(query);
   }
 }
 
