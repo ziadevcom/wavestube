@@ -1,19 +1,33 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useCallback, useRef } from "react";
 import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
-import { useState } from "react";
+import { debounce } from "../../../Utils/helpers";
+import { fetchSuggestions } from "../../../Utils/youtube";
 
 export default function Search() {
-  const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+  const [error, setError] = useState(false);
+  const debounceFetch = useCallback(debounce(fetchSuggestions, 250), []);
+  const searchInputRef = useRef(null);
 
   function handleSubmit(event) {
     event.preventDefault();
+    const searchInput = searchInputRef.current.value;
     if (!searchInput) return;
     navigate(`/search?q=${searchInput}`);
   }
 
   function handleSearchInputChange(e) {
-    setSearchInput(e.target.value);
+    debounceFetch(e.target.value, setSuggestions, setError);
+  }
+
+  function handleSuggestionClick(text) {
+    searchInputRef.current.value = text;
+  }
+
+  function closeSuggestions() {
+    setSuggestions([]);
   }
 
   return (
@@ -27,12 +41,13 @@ export default function Search() {
           Search Songs
         </label>
         <input
+          ref={searchInputRef}
           id="searchSongs"
           type="text"
           name="q"
           className="xsm:flex-grow h-full text-text-dark px-4 placeholder-text-red-500"
           placeholder="Search for a song..."
-          value={searchInput}
+          // value={searchInput}
           onChange={handleSearchInputChange}
         ></input>
 
@@ -44,7 +59,12 @@ export default function Search() {
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <SearchSuggestions searchQuery={searchInput} />
+      <SearchSuggestions
+        suggestions={suggestions}
+        error={error}
+        handleSuggestionClick={handleSuggestionClick}
+        closeSuggestions={closeSuggestions}
+      />
     </div>
   );
 }

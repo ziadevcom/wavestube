@@ -5,7 +5,6 @@ export default function Search() {
   const query = params.get("q");
   return (
     <h2>
-      {" "}
       You searched for <strong> {query} </strong>
     </h2>
   );
