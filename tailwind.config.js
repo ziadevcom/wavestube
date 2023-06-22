@@ -1,5 +1,5 @@
 export default {
-  content: ["./index.html", "./src/**/*.{jsx, .svg}"],
+  content: ["./index.html", "./src/**/*.{jsx,svg}"],
   theme: {
     extend: {
       gridTemplateRows: {
@@ -14,7 +14,6 @@ export default {
         },
         accent: {
           light: "#ff3f3f",
-          // DEFAULT: "#FF0000",
           DEFAULT: "red",
         },
         bg: {

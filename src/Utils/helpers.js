@@ -50,3 +50,14 @@ export function debounce(func, delay) {
     timeoutId = setTimeout(() => func(...args), delay);
   };
 }
+
+export function secondsToMinutes(seconds) {
+  return {
+    minutes: Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, 0),
+    seconds: Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, 0),
+  };
+}

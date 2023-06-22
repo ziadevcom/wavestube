@@ -36,3 +36,7 @@ body {
 .pd-container {
   @apply p-4 md:p-8;
 }
+
+.volume-svg {
+  @apply w-full h-full;
+}
