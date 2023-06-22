@@ -3,12 +3,16 @@ import { useState, useCallback, useRef } from "react";
 import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
 import { debounce } from "../../../Utils/helpers";
 import { fetchSuggestions } from "../../../Utils/youtube";
+import { REQUEST_DEBOUNCE_TIME } from "../../../Utils/constants";
 
 export default function Search() {
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(false);
-  const debounceFetch = useCallback(debounce(fetchSuggestions, 250), []);
+  const debounceFetch = useCallback(
+    debounce(fetchSuggestions, REQUEST_DEBOUNCE_TIME),
+    []
+  );
   const searchInputRef = useRef(null);
 
   function handleSubmit(event) {
