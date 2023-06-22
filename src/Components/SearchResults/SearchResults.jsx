@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import SearchResultItem from "./SearchResultItem/SearchResultItem";
 import { searchYoutube } from "../../Utils/youtube";
 
 export default function SearchResults() {
@@ -141,12 +142,12 @@ function Loader() {
 function SearchResultsGrid({ query, videos }) {
   return (
     <>
-      <p>
+      <p className="pb-4 md:pb-8 md:text-lg">
         You searched for <strong> {query} </strong>
       </p>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-4">
         {videos.map((result, index) => {
-          return <li key={index}>{result.title}</li>;
+          return <SearchResultItem key={index} videoData={result} />;
         })}
       </div>
     </>
