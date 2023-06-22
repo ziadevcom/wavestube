@@ -13,10 +13,26 @@ body {
 }
 
 #root {
-  @apply w-full h-full flex justify-center items-center p-4 md:m-0;
+  @apply w-full h-full flex justify-center items-center p-4 md:py-8 md:px-8 md:m-0;
 }
 
 #logo svg {
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.scrollbar::-webkit-scrollbar {
+  @apply w-[5px] bg-transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-accent rounded;
+}
+
+.pd-container {
+  @apply p-4 md:p-8;
 }

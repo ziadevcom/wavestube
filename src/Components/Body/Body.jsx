@@ -4,9 +4,11 @@ import SearchResults from "../SearchResults/SearchResults";
 
 export default function Body() {
   return (
-    <Routes>
-      <Route path="/" element={<Songs />}></Route>
-      <Route path="/search" element={<SearchResults />}></Route>
-    </Routes>
+    <div className="flex-grow overflow-y-auto scrollbar pd-container">
+      <Routes>
+        <Route path="/" element={<Songs />}></Route>
+        <Route path="/search" element={<SearchResults />}></Route>
+      </Routes>
+    </div>
   );
 }

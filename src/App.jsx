@@ -4,7 +4,7 @@ import Body from "./Components/Body/Body";
 
 function App() {
   return (
-    <main className="grid grid-rows-3r grid-cols-1 items-center justify-center bg-bg-darker p-4 rounded w-full h-full md:w-4/5 md:h-4/5 md:p-8">
+    <main className="flex flex-col items-center justify-top gap-4 bg-bg-darker rounded w-full h-full md:w-4/5">
       <Header />
       <Body />
       <AudioPlayer />

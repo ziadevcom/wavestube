@@ -5,7 +5,7 @@ import Search from "./SearchForm/SearchForm";
 
 function Header() {
   return (
-    <header className="flex flex-col items-center gap-4 w-full md:flex-row md:justify-between">
+    <header className="flex flex-col items-center gap-4 w-full md:flex-row md:justify-between pd-container">
       <Logo />
       <Search />
       <Socials />
