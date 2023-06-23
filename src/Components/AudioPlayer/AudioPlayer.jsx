@@ -53,7 +53,7 @@ function AudioPlayer() {
   return (
     <div
       id="audioPlayer"
-      className="flex flex-col md:flex-row justify-between items-center gap-4  w-full pd-container"
+      className="flex flex-col md:flex-row justify-between items-center gap-4 w-full pd-container animated slideInUp"
     >
       <p className="w-full text-center md:w-1/4 md:text-left">
         {audioStream.title}
