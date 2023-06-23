@@ -10,7 +10,7 @@ export default function SearchResultItem({ videoData }) {
 
   async function handleSearchResultClick() {
     const videoData = await fetchVideo(videoId);
-    const response = await fetch(videoId.url);
+    const response = await fetch(videoData.audioStreams[0].url);
     if (response.ok) {
       return setAudioStream(videoData);
     } else {
