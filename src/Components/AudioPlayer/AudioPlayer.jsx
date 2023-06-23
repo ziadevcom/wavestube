@@ -7,22 +7,30 @@ import { AudioContext } from "../../Contexts/AudioContext";
 
 function AudioPlayer() {
   const { audioStream } = useContext(AudioContext);
-  const audioStreams = audioStream.audioStreams.sort(
-    (a, b) => a.bitrate - b.bitrate
+  const audioStreams = audioStream?.audioStreams
+    .slice()
+    .filter((s) => s.codec === "opus")
+    .sort((a, b) => a.bitrate - b.bitrate);
+  const [currentSong, setCurrentSong] = useState(
+    new Audio(audioStreams[0].url)
   );
-  const currentSongRef = useRef(
-    new Audio(audioStreams[audioStreams.length - 1].url)
-  );
-  const currentSong = currentSongRef.current;
   const [currentTime, setCurrentTime] = useState(currentSong.currentTime);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(100);
 
   useEffect(() => {
-    currentSong.ontimeupdate = () => {
-      setCurrentTime(currentSong.currentTime);
-    };
+    currentSong.ontimeupdate = () => setCurrentTime(currentSong.currentTime);
+
+    currentSong.oncanplaythrough = () => playAudio();
+
+    currentSong.onended = () => setPlaying(false);
+
+    currentSong.preload = true;
   }, [currentSong]);
+
+  useEffect(() => {
+    currentSong.src = audioStreams[0].url;
+  }, [audioStream]);
 
   function changeVolume(e) {
     setVolume(Number(e.target.value));
@@ -137,10 +145,9 @@ function AudioTrack({ currentSong, currentTime, totalTime: audioDuration }) {
           Seek the track forward or backwards
         </label>
         <input
-          value={0}
           type="range"
           id="trackSeekerInput"
-          className="w-full opacity-0 cursor-pointer absolute  z-10"
+          className="w-full opacity-0 cursor-pointer absolute z-10 "
           max={audioDuration}
           onInput={handleTrackClick}
         />
