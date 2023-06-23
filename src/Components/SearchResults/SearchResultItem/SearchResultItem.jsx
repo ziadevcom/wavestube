@@ -10,7 +10,12 @@ export default function SearchResultItem({ videoData }) {
 
   async function handleSearchResultClick() {
     const videoData = await fetchVideo(videoId);
-    setAudioStream(videoData);
+    const response = await fetch(videoId.url);
+    if (response.ok) {
+      return setAudioStream(videoData);
+    } else {
+      return handleSearchResultClick();
+    }
   }
 
   return (
@@ -29,7 +34,10 @@ export default function SearchResultItem({ videoData }) {
           <span className="sr-only">Click to play {title}</span>
         </button>
       </div>
-      <h3 className="p-4">{videoData.title.slice(0, 40)}...</h3>
+      <h3 className="p-4">
+        {videoData.title.slice(0, 40)}
+        {videoData.title.length > 40 && "..."}
+      </h3>
     </div>
   );
 }
