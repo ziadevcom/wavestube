@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { ReactComponent as MutedIcon } from "../../assets/muted.svg";
 import { ReactComponent as LowVolumeIcon } from "../../assets/low_volume.svg";
 import { ReactComponent as VolumeIcon } from "../../assets/volume.svg";
+import { ReactComponent as PlayIcon } from "../../assets/play.svg";
+import { ReactComponent as PauseIcon } from "../../assets/pause.svg";
 import { secondsToMinutes } from "../../Utils/helpers";
 import { AudioContext } from "../../Contexts/AudioContext";
 
@@ -65,18 +67,53 @@ function AudioPlayer() {
           currentTime={currentTime}
           totalTime={audioStream.duration}
         />
-        <div className="flex gap-4 justify-center">
-          <button>Prev</button>
-          {playing ? (
-            <button onClick={pauseAudio}>Pause</button>
-          ) : (
-            <button onClick={playAudio}>Play</button>
-          )}
-          <button>Next</button>
+        <div className="flex gap-4 w-full justify-between items-center ">
+          <div className="flex flex-grow justify-center gap-4 ml-6 md:ml-0">
+            <button
+              disabled
+              className="cursor-not-allowed"
+              title="Not available yet."
+            >
+              Prev
+            </button>
+            {playing ? (
+              <button
+                className="group w-12 h-12 bg-bg-light rounded-full p-4"
+                onClick={pauseAudio}
+              >
+                <PauseIcon />
+              </button>
+            ) : (
+              <button
+                className="group w-12 h-12 bg-bg-light rounded-full p-3"
+                onClick={playAudio}
+              >
+                <PlayIcon />
+              </button>
+            )}
+            <button
+              disabled
+              className="cursor-not-allowed"
+              title="Not available yet."
+            >
+              Next
+            </button>
+          </div>
+          {
+            // Volume changer for mobile
+          }
+          <div className="md:hidden">
+            <Volume volume={volume} handleVolumeChange={changeVolume} />
+          </div>
         </div>
       </div>
       <div className="w-full flex justify-center md:w-1/4 md:justify-end">
-        <Volume volume={volume} handleVolumeChange={changeVolume} />
+        {
+          // Volume changer for desktops
+        }
+        <div className="hidden md:block">
+          <Volume volume={volume} handleVolumeChange={changeVolume} />
+        </div>
       </div>
     </div>
   );
@@ -101,17 +138,18 @@ function Volume({ volume, handleVolumeChange }) {
 
   return (
     <div className="group relative flex items-center gap-4">
-      <button onClick={toggleVolumeSlider} className="h-5 w-5 md:w-8 md:h-8">
+      <button onClick={toggleVolumeSlider} className="h-6 w-6 md:w-8 md:h-8">
         {volumeIcon}
         <span className="sr-only">{volume}</span>
       </button>
 
       {visibility && (
-        <div className="group-focus-within:visible invisible md:absolute md:-top-4 md:left-1/2 md:-rotate-90 md:origin-left z-5">
+        <div className="group-focus-within:visible invisible absolute -top-4 left-1/2 -rotate-90 origin-left z-5 p-4 pb-0 backdrop-blur-sm rounded-full">
           <label htmlFor="changeVolume" className="sr-only">
             Change volume
           </label>
           <input
+            className="w-[100px]"
             onChange={handleVolumeChange}
             id="changeVolume"
             type="range"
@@ -121,7 +159,7 @@ function Volume({ volume, handleVolumeChange }) {
       )}
       <p
         aria-hidden="true"
-        className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 absolute top-2 -left-4 -translate-x-1/2"
+        className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 absolute -left-4 -translate-x-1/2"
       >
         {volume}
       </p>
