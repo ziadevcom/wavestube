@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState, useCallback, useRef } from "react";
 import SearchSuggestions from "../SearchSuggestions/SearchSuggestions";
 import { debounce } from "../../../Utils/helpers";
@@ -14,6 +14,8 @@ export default function Search() {
     []
   );
   const searchInputRef = useRef(null);
+  const [params] = useSearchParams();
+  const query = params.get("q");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -51,7 +53,7 @@ export default function Search() {
           name="q"
           className="xsm:flex-grow h-full text-text-dark px-4 placeholder-text-red-500"
           placeholder="Search for a song..."
-          // value={searchInput}
+          defaultValue={query}
           onChange={handleSearchInputChange}
         ></input>
 

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { AudioContext } from "../../../Contexts/AudioContext";
 import { fetchVideo } from "../../../Utils/youtube";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 export default function SearchResultItem({ videoData }) {
   const { setAudioStream, setPlaybackStarted } = useContext(AudioContext);
