@@ -40,3 +40,7 @@ body {
 .volume-svg {
   @apply w-full h-full;
 }
+
+#trackSeekerInput:focus + div {
+  @apply outline-2 outline-white outline outline-offset-2;
+}
