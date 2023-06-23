@@ -25,6 +25,22 @@ export async function searchYoutube(query) {
   }
 }
 
+export async function fetchVideo(videoId) {
+  try {
+    const instanceURL = await getInstanceURL();
+
+    const requestURL = encodeURI(`${instanceURL}/streams/${videoId}`);
+
+    const response = await fetch(requestURL);
+    const result = await response.json();
+
+    return result;
+  } catch (error) {
+    console.log(error);
+    return await fetchVideo(videoId);
+  }
+}
+
 // Fetch search suggetions & update relevant state
 export async function fetchSuggestions(searchQuery, setSuggestions, setError) {
   if (!searchQuery) return;
