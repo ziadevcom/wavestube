@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useContext, useRef } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import PropTypes from "prop-types";
 import { ReactComponent as MutedIcon } from "../../assets/muted.svg";
 import { ReactComponent as LowVolumeIcon } from "../../assets/low_volume.svg";
@@ -55,11 +55,8 @@ function AudioPlayer() {
       id="audioPlayer"
       className="flex flex-col md:flex-row justify-between items-center gap-4  w-full pd-container"
     >
-      <p
-        className="w-full text-center md:w-1/4 md:text-left"
-        title={audioStream.title}
-      >
-        {audioStream.title.slice(0, 25)}...
+      <p className="w-full text-center md:w-1/4 md:text-left">
+        {audioStream.title}
       </p>
       <div className="w-full md:w-2/3 flex-grow flex flex-col items-center gap-4">
         <AudioTrack
