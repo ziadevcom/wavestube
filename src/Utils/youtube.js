@@ -1,4 +1,4 @@
-import { getInstanceURL, getOfficialInstanceURL } from "./helpers.js";
+import { getInstanceURL } from "./helpers.js";
 
 // Recursively make requests until we get results successfully
 // Make request to official instance
@@ -6,7 +6,7 @@ import { getInstanceURL, getOfficialInstanceURL } from "./helpers.js";
 // If fails => call recusively and use some other instance
 export async function searchYoutube(query) {
   try {
-    const instanceURL = await getInstanceURL();
+    const instanceURL = await getInstanceURL(true);
 
     const requestURL = encodeURI(
       `${instanceURL}/search?q=${query}&filter=videos`
@@ -26,13 +26,21 @@ export async function searchYoutube(query) {
 }
 
 export async function fetchVideo(videoId) {
-  try {
-    const instanceURL = await getInstanceURL();
+  const controller = new AbortController();
 
+  try {
+    const instanceURL = await getInstanceURL(false);
     const requestURL = encodeURI(`${instanceURL}/streams/${videoId}`);
 
-    const response = await fetch(requestURL);
+    const timeout = setTimeout(() => {
+      controller.abort(); // Cancel the fetch request
+      console.log("Request timed out");
+    }, 3000);
+
+    const response = await fetch(requestURL, { signal: controller.signal });
+    if (!response.ok) throw Error();
     const result = await response.json();
+    clearTimeout(timeout);
 
     return result;
   } catch (error) {
