@@ -25,11 +25,11 @@ export async function getLatestPipedInstanceURLs() {
   return instances;
 }
 
-export async function getInstanceURL() {
+export async function getInstanceURL(official = true) {
   const officialInstance = await getOfficialInstanceURL();
   const randomInstance =
     instances[Math.floor(Math.random() * instances.length)];
-  if (officialInstance) {
+  if (officialInstance && official) {
     return officialInstance.apiurl;
   } else {
     return randomInstance.apiurl;
