@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo, useContext, useRef } from "react";
 import PropTypes from "prop-types";
 import { ReactComponent as MutedIcon } from "../../assets/muted.svg";
+import { ReactComponent as LowVolumeIcon } from "../../assets/low_volume.svg";
 import { ReactComponent as VolumeIcon } from "../../assets/volume.svg";
 import { secondsToMinutes } from "../../Utils/helpers";
 import { AudioContext } from "../../Contexts/AudioContext";
@@ -88,15 +89,25 @@ function Volume({ volume, handleVolumeChange }) {
     setVisibility(!visibility);
   }
 
+  let volumeIcon;
+
+  if (volume == 0) {
+    volumeIcon = <MutedIcon />;
+  } else if (volume <= 50) {
+    volumeIcon = <LowVolumeIcon />;
+  } else {
+    volumeIcon = <VolumeIcon />;
+  }
+
   return (
     <div className="group relative flex items-center gap-4">
-      <button onClick={toggleVolumeSlider} className="h-7 w-7 md:w-10 md:h-10">
-        {volume > 0 ? <VolumeIcon /> : <MutedIcon />}
+      <button onClick={toggleVolumeSlider} className="h-5 w-5 md:w-8 md:h-8">
+        {volumeIcon}
         <span className="sr-only">{volume}</span>
       </button>
 
       {visibility && (
-        <div className="md:absolute md:-top-4 md:left-1/2 md:-rotate-90 md:origin-left z-5">
+        <div className="group-focus-within:visible invisible md:absolute md:-top-4 md:left-1/2 md:-rotate-90 md:origin-left z-5">
           <label htmlFor="changeVolume" className="sr-only">
             Change volume
           </label>
