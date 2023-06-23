@@ -1,19 +1,24 @@
 import PropTypes from "prop-types";
 import { AudioContext } from "../../../Contexts/AudioContext";
 import { fetchVideo } from "../../../Utils/youtube";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function SearchResultItem({ videoData }) {
-  const { setAudioStream } = useContext(AudioContext);
+  const { setAudioStream, setPlaybackStarted } = useContext(AudioContext);
   const { title, thumbnail, views, uploaderVerified, url } = videoData;
   const videoId = url.slice(9);
 
   async function handleSearchResultClick() {
-    const videoData = await fetchVideo(videoId);
-    const response = await fetch(videoData.audioStreams[0].url);
-    if (response.ok) {
+    setPlaybackStarted(false);
+    try {
+      const videoData = await fetchVideo(videoId);
+      const response = await fetch(videoData.audioStreams[0].url, {
+        method: "HEAD",
+      });
+      if (!response.ok)
+        throw TypeError("Could not fetch audio stream from proxy.");
       return setAudioStream(videoData);
-    } else {
+    } catch (error) {
       return handleSearchResultClick();
     }
   }

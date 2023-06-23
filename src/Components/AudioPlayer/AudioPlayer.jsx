@@ -9,14 +9,8 @@ import { secondsToMinutes } from "../../Utils/helpers";
 import { AudioContext } from "../../Contexts/AudioContext";
 
 function AudioPlayer() {
-  const { audioStream } = useContext(AudioContext);
-  const audioStreams = audioStream?.audioStreams
-    .slice()
-    .filter((s) => s.codec === "opus")
-    .sort((a, b) => a.bitrate - b.bitrate);
-  const [currentSong, setCurrentSong] = useState(
-    new Audio(audioStreams[0].url)
-  );
+  const { audioStream, currentSong, playbackStarted, setPlaybackStarted } =
+    useContext(AudioContext);
   const [currentTime, setCurrentTime] = useState(currentSong.currentTime);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(100);
@@ -24,16 +18,22 @@ function AudioPlayer() {
   useEffect(() => {
     currentSong.ontimeupdate = () => setCurrentTime(currentSong.currentTime);
 
-    currentSong.oncanplaythrough = () => playAudio();
+    currentSong.addEventListener(
+      "canplaythrough",
+      () => {
+        console.log(
+          "Component <AudioPlayer />: Song should be able to play now."
+        );
+        setPlaybackStarted(true);
+        if (currentSong.paused) playAudio();
+      },
+      []
+    );
 
     currentSong.onended = () => setPlaying(false);
 
     currentSong.preload = true;
-  }, [currentSong]);
-
-  useEffect(() => {
-    currentSong.src = audioStreams[0].url;
-  }, [audioStream]);
+  }, []);
 
   function changeVolume(e) {
     setVolume(Number(e.target.value));
@@ -73,21 +73,46 @@ function AudioPlayer() {
             >
               Prev
             </button>
-            {playing ? (
+            {!playbackStarted && (
+              <div className="group w-12 h-12 bg-bg-light rounded-full p-4">
+                <svg
+                  className="animate-spin h-5 w-5 -mt-[2px] -ml-[2px]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="fill-bg-dark"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </div>
+            )}
+            {playbackStarted && playing && (
               <button
                 className="group w-12 h-12 bg-bg-light rounded-full p-4"
                 onClick={pauseAudio}
               >
                 <PauseIcon />
               </button>
-            ) : (
+            )}
+            {playbackStarted && !playing && (
               <button
                 className="group w-12 h-12 bg-bg-light rounded-full p-3"
                 onClick={playAudio}
               >
                 <PlayIcon />
               </button>
-            )}
+            )}{" "}
             <button
               disabled
               className="cursor-not-allowed"
