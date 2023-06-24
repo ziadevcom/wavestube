@@ -4,7 +4,7 @@ import SearchResults from "../SearchResults/SearchResults";
 
 export default function Body() {
   return (
-    <div className="flex-grow overflow-y-auto scrollbar pd-container">
+    <div className="flex-grow overflow-y-auto overflow-x-hidden scrollbar pd-container">
       <Routes>
         <Route path="/" element={<Songs />}></Route>
         <Route path="/search" element={<SearchResults />}></Route>
