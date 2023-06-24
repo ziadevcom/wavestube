@@ -10,7 +10,7 @@ export default function Search() {
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(false);
   const debounceFetch = useCallback(
-    () => debounce(fetchSuggestions, REQUEST_DEBOUNCE_TIME),
+    debounce(fetchSuggestions, REQUEST_DEBOUNCE_TIME),
     []
   );
   const [showSuggestions, setShowSuggestions] = useState(null);
