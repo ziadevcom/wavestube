@@ -16,18 +16,16 @@ export default function SearchSuggestions({
   }, []);
 
   return (
-    suggestions.length > 1 && (
-      <div className="w-full md:w-[500px] pt-2 bg-bg-light rounded-b-sm  text-text-dark absolute z-10">
-        {error && "Something went wrong. Please try again."}
-        {suggestions.map((s, i) => (
-          <SuggestionLink
-            key={i}
-            text={s}
-            handleSuggestionClick={handleSuggestionClick}
-          />
-        ))}
-      </div>
-    )
+    <div className="w-full md:w-[500px] pt-2 bg-bg-light rounded-b-sm  text-text-dark absolute z-10">
+      {error && "Something went wrong. Please try again."}
+      {suggestions.map((s, i) => (
+        <SuggestionLink
+          key={i}
+          text={s}
+          handleSuggestionClick={handleSuggestionClick}
+        />
+      ))}
+    </div>
   );
 }
 

@@ -10,21 +10,25 @@ export default function Search() {
   const [suggestions, setSuggestions] = useState([]);
   const [error, setError] = useState(false);
   const debounceFetch = useCallback(
-    debounce(fetchSuggestions, REQUEST_DEBOUNCE_TIME),
+    () => debounce(fetchSuggestions, REQUEST_DEBOUNCE_TIME),
     []
   );
+  const [showSuggestions, setShowSuggestions] = useState(null);
+
   const searchInputRef = useRef(null);
   const [params] = useSearchParams();
   const query = params.get("q");
 
   function handleSubmit(event) {
     event.preventDefault();
+    setShowSuggestions(false);
     const searchInput = searchInputRef.current.value;
     if (!searchInput) return;
     navigate(`/search?q=${searchInput}`);
   }
 
   function handleSearchInputChange(e) {
+    setShowSuggestions(true);
     debounceFetch(e.target.value, setSuggestions, setError);
   }
 
@@ -65,12 +69,14 @@ export default function Search() {
           <span className="sr-only">Search</span>
         </button>
       </form>
-      <SearchSuggestions
-        suggestions={suggestions}
-        error={error}
-        handleSuggestionClick={handleSuggestionClick}
-        closeSuggestions={closeSuggestions}
-      />
+      {suggestions.length > 1 && showSuggestions && (
+        <SearchSuggestions
+          suggestions={suggestions}
+          error={error}
+          handleSuggestionClick={handleSuggestionClick}
+          closeSuggestions={closeSuggestions}
+        />
+      )}
     </div>
   );
 }
